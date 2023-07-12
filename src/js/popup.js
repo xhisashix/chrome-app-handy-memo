@@ -11,11 +11,24 @@ function saveMemo() {
   });
 }
 
-function clearMemo() {
-  memo.value = "";
-  chrome.storage.local.set({ memo: "" }, () => {
-    console.log("clear memo");
+function saveTitle() {
+  chrome.storage.local.set({ title: title.value }, () => {
+    console.log("save title");
   });
+}
+
+function clearMemo() {
+  title.value = "";
+  memo.value = "";
+  chrome.storage.local.set(
+    {
+      title: "",
+      memo: "",
+    },
+    () => {
+      console.log("clear memo");
+    }
+  );
 }
 
 function copyToClipboard() {
@@ -34,5 +47,6 @@ function copyToClipboard() {
 }
 
 document.getElementById("memo").addEventListener("blur", saveMemo);
+document.getElementById("title").addEventListener("blur", saveMemo);
 document.getElementById("reset_btn").addEventListener("click", clearMemo);
 document.getElementById("copy_btn").addEventListener("click", copyToClipboard);
