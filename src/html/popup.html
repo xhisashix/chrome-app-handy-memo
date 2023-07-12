@@ -16,33 +16,81 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="main container p-2">
-      <h3>メモ</h3>
-      <div class="container">
-        <div
-          id="flash"
-          class="alert alert-primary"
-          role="alert"
-          style="display: none"
-        ></div>
+    <div class="main container-md p-3">
+      <h3>ちょこっとメモ</h3>
+      <div class="form-group">
         <div class="form-group">
-          <label for="title">タイトル</label>
-          <input type="text" name="title" id="title">
-          <textarea class="form-control" id="md_memo" rows="10"></textarea>
-          <div class="mt-2">
-            <button type="button" id="save_btn" class="btn btn-primary">
-              保存
-            </button>
-            <button type="button" id="copy_btn" class="btn btn-secondary">
+          <input type="text" name="title" id="title" placeholder="タイトル" />
+        </div>
+        <div class="form-group mb-1">
+          <input
+            type="button"
+            name="h1"
+            id="h1"
+            value="#"
+            class="btn btn-sm btn-outline-secondary"
+          />
+          <input
+            type="button"
+            name="h2"
+            id="h2"
+            value="##"
+            class="btn btn-sm btn-outline-secondary"
+          />
+          <input
+            type="button"
+            name="h3"
+            id="h3"
+            value="###"
+            class="btn btn-sm btn-outline-secondary"
+          />
+          <input
+            type="button"
+            name="sharp"
+            id="square"
+            value="■"
+            class="btn btn-sm btn-outline-secondary"
+          />
+          <input
+            type="button"
+            name="sharp"
+            id="date"
+            value="DATE"
+            class="btn btn-sm btn-outline-secondary"
+          />
+          <input
+            type="button"
+            name="sharp"
+            id="time"
+            value="TIME"
+            class="btn btn-sm btn-outline-secondary"
+          />
+        </div>
+        <textarea class="form-control" id="memo" rows="10"></textarea>
+        <div class="form-inline mt-2">
+          <div class="form-group">
+            <button type="button" id="copy_btn" class="btn btn-warning">
               コピー
             </button>
             <button
               type="button"
               id="reset_btn"
-              class="btn btn-outline-secondary"
+              class="btn btn-outline-secondary ml-2"
             >
               リセット
             </button>
+            <button
+              type="button"
+              id="download_btn"
+              class="btn btn-secondary ml-2"
+            >
+              ダウンロード
+            </button>
+            <span
+              id="flash"
+              class="badge badge-pill badge-success ml-2"
+              style="display: none"
+            ></span>
           </div>
         </div>
       </div>
