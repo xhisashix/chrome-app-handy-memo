@@ -17,10 +17,10 @@
   </head>
   <body>
     <div class="main container-md p-3">
-      <h3>ちょこっとメモ</h3>
+      <h3>Handy Memo</h3>
       <div class="form-group">
         <div class="form-group">
-          <input type="text" name="title" id="title" placeholder="タイトル" />
+          <input type="text" name="title" id="title" class="form-control" placeholder="タイトル" />
         </div>
         <div class="form-group mb-1">
           <input
@@ -91,6 +91,11 @@
               class="badge badge-pill badge-success ml-2"
               style="display: none"
             ></span>
+          </div>
+          <div class="form-grop">
+            <small class="form-text text-muted">・テキストエリアからフォーカスが外れると自動保存されます。</small>
+            <small class="form-text text-muted mt-1">・リセットはタイトルとテキストボックスのどちらも初期化されます。</small>
+            <small class="form-text text-muted mt-1">・タイトルが未入力の場合、現在の日付と時間でダウンロードできます。</small>
           </div>
         </div>
       </div>
