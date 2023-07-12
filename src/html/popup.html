@@ -16,13 +16,17 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div id="simple_memo"></div>
     <div class="main container p-2">
       <h3>メモ</h3>
       <div class="container">
-        <div id="flash" class="alert alert-primary" role="alert" style="display: none;"></div>
+        <div
+          id="flash"
+          class="alert alert-primary"
+          role="alert"
+          style="display: none"
+        ></div>
         <div class="form-group">
-          <textarea class="form-control" id="memo" rows="10"></textarea>
+          <textarea class="form-control" id="md_memo" rows="10"></textarea>
           <div class="mt-2">
             <button type="button" id="save_btn" class="btn btn-primary">
               保存
@@ -30,7 +34,11 @@
             <button type="button" id="copy_btn" class="btn btn-secondary">
               コピー
             </button>
-            <button type="button" id="reset_btn" class="btn btn-outline-secondary">
+            <button
+              type="button"
+              id="reset_btn"
+              class="btn btn-outline-secondary"
+            >
               リセット
             </button>
           </div>

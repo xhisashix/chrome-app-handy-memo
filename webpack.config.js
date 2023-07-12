@@ -7,6 +7,15 @@ module.exports = {
     filename: "js/popup.js",
     path: path.resolve(__dirname, "dist"),
   },
+  module: {
+    rules: [
+      // CSS ローダーの設定
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
   plugins: [
     new CopyPlugin({
       patterns: [

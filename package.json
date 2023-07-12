@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "codemirror": "^6.0.1",
+    "codemirror": "^5.60.0",
     "simplemde": "^1.11.2",
     "webpack": "^5.88.1"
   },
@@ -16,6 +16,8 @@
   "description": "",
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
     "webpack-cli": "^5.1.4"
   }
 }
