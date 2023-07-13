@@ -19,8 +19,42 @@
     <div class="main container-md p-3">
       <h3>Handy Memo</h3>
       <div class="form-group">
+        <div class="form-group d-flex">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a type="button" class="nav-link tab-btn active">
+                1
+              </a>
+            </li>
+            <li class="nav-item">
+              <a type="button" class="nav-link tab-btn">
+                2
+              </a>
+            </li>
+            <li class="nav-item">
+              <a type="button" class="nav-link tab-btn">
+                3
+              </a>
+            </li>
+          </ul>
+          <button
+            type="button"
+            id="generate_btn"
+            class="btn btn-outline-info ml-auto"
+          >
+            +
+          </button>
+        </div>
         <div class="form-group">
-          <input type="text" name="title" id="title" class="form-control" placeholder="タイトル" />
+          <div id="title_area">
+            <input
+              type="text"
+              name="title"
+              id="title"
+              class="form-control"
+              placeholder="タイトル"
+            />
+          </div>
         </div>
         <div class="form-group mb-1">
           <input
@@ -66,7 +100,13 @@
             class="btn btn-sm btn-outline-secondary"
           />
         </div>
-        <textarea class="form-control" id="memo" rows="10"></textarea>
+        <div id="memo_area">
+          <textarea
+            class="form-control memo-textarea"
+            id="memo"
+            rows="10"
+          ></textarea>
+        </div>
         <div class="form-inline mt-2">
           <div class="form-group">
             <button type="button" id="copy_btn" class="btn btn-warning">
@@ -93,9 +133,15 @@
             ></span>
           </div>
           <div class="form-grop">
-            <small class="form-text text-muted">・テキストエリアからフォーカスが外れると自動保存されます。</small>
-            <small class="form-text text-muted mt-1">・リセットはタイトルとテキストボックスのどちらも初期化されます。</small>
-            <small class="form-text text-muted mt-1">・タイトルが未入力の場合、現在の日付と時間でダウンロードできます。</small>
+            <small class="form-text text-muted"
+              >・テキストエリアからフォーカスが外れると自動保存されます。</small
+            >
+            <small class="form-text text-muted mt-1"
+              >・リセットはタイトルとテキストボックスのどちらも初期化されます。</small
+            >
+            <small class="form-text text-muted mt-1"
+              >・タイトルが未入力の場合、現在の日付と時間でダウンロードできます。</small
+            >
           </div>
         </div>
       </div>

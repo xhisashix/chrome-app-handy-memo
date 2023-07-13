@@ -109,13 +109,13 @@ memo.addEventListener("blur", saveMemo);
 title.addEventListener("blur", saveTitle);
 resetBtn.addEventListener("click", clearMemo);
 copyBtn.addEventListener("click", copyToClipboard);
-h1.addEventListener("click", () => {
+$h1.addEventListener("click", () => {
   insertText("# ", memo);
 });
-h2.addEventListener("click", () => {
+$h2.addEventListener("click", () => {
   insertText("## ", memo);
 });
-h3.addEventListener("click", () => {
+$h3.addEventListener("click", () => {
   insertText("### ", memo);
 });
 square.addEventListener("click", () => {
