@@ -12,6 +12,19 @@ class popupClass {
   };
 
   /**
+   * get active tab id
+   * @returns {string} activeTabId
+   */
+  getActiveTabId = () => {
+    chrome.storage.local.get(["activeTabId"], (result) => {
+      if (result.activeTabId) {
+        const activeTabId = result.activeTabId;
+        this.activeNav(activeTabId);
+      }
+    });
+  };
+
+  /**
    * メモの情報を取得する
    * @param {string} targetVal
    * @returns {string} targetVal

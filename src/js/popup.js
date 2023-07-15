@@ -65,6 +65,6 @@ document.addEventListener("click", function (event) {
     popup.insertText(new Date().toLocaleTimeString(), memo);
   }
 });
-
+popup.getActiveTabId();
 popup.addList();
 popup.getTargetVal(title, memo);
