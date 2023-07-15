@@ -2,6 +2,16 @@ class popupClass {
   constructor() {}
 
   /**
+   * save active tab id
+   * @param {string} id
+   */
+  saveActiveTabId = (id) => {
+    chrome.storage.local.set({ activeTabId: id }, () => {
+      console.log("save active tab id");
+    });
+  };
+
+  /**
    * メモの情報を取得する
    * @param {string} targetVal
    * @returns {string} targetVal
@@ -172,6 +182,7 @@ class popupClass {
     // add active class
     const activeLink = document.getElementById(`memo_${itemId}`);
     activeLink.classList.add("active");
+    this.saveActiveTabId(itemId);
   };
 
   /**
