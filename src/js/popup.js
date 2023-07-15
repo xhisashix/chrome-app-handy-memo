@@ -15,10 +15,15 @@ title.addEventListener("blur", () => {
   popup.saveTitle(title);
 });
 
-
 document.addEventListener("click", function (event) {
   var clickedElement = event.target;
   var id = clickedElement.id;
+
+  //if include memo_ in id
+  if (id.includes("memo_")) {
+    const navId = popup.getNavItemId(id);
+    popup.activeNav(navId);
+  }
 
   if (id === "reset_btn") {
     popup.clearMemo(title, memo);

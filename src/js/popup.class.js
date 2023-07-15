@@ -159,6 +159,29 @@ class popupClass {
       parentElement.appendChild(liElement);
     }
   };
+
+  /**
+   * active nav link
+   */
+  activeNav = (itemId) => {
+    const navLinks = document.querySelectorAll(".nav-link");
+    // remove active class
+    navLinks.forEach((navLink) => {
+      navLink.classList.remove("active");
+    });
+    // add active class
+    const activeLink = document.getElementById(`memo_${itemId}`);
+    activeLink.classList.add("active");
+  };
+
+  /**
+   * get nav item id
+   * @returns {string} itemId
+   */
+  getNavItemId = (id) => {
+    const itemId = id.replace("memo_", "");
+    return itemId;
+  };
 }
 
 module.exports = popupClass;
