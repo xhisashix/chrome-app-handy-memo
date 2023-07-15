@@ -23,9 +23,9 @@ class popupClass {
    * @param {string} targetVal
    * @returns {string} targetVal
    */
-  saveTitle = (title) => {
+  saveTitle = (title, itemId) => {
     const keyTitle = title.getAttribute("id");
-    chrome.storage.local.set({ [keyTitle]: title.value }, () => {
+    chrome.storage.local.set({ [`${keyTitle}_${itemId}`]: title.value }, () => {
       console.log("save title");
     });
 
@@ -37,9 +37,9 @@ class popupClass {
    * @param {string} targetVal
    * @returns {string} targetVal
    */
-  saveMemo = (memo) => {
+  saveMemo = (memo, itemId) => {
     const keyMemo = memo.getAttribute("id");
-    chrome.storage.local.set({ [keyMemo]: memo.value }, () => {
+    chrome.storage.local.set({ [`${keyMemo}_${itemId}`]: memo.value }, () => {
       console.log("save memo");
     });
 
@@ -125,6 +125,39 @@ class popupClass {
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
+  };
+
+  /**
+   * add list element
+   */
+  addList = () => {
+    // 要素を作成する回数
+    const count = 10;
+
+    // 要素を追加する親要素のIDを指定
+    var parentElementId = "nav";
+
+    // 親要素を取得
+    var parentElement = document.getElementById(parentElementId);
+
+    // 要素を作成して親要素に追加するループ
+    for (var i = 1; i <= count; i++) {
+      // li要素を作成
+      var liElement = document.createElement("li");
+      liElement.className = "nav-item";
+
+      // a要素を作成
+      var aElement = document.createElement("a");
+      aElement.className = "nav-link tab-btn";
+      aElement.id = "memo_" + i;
+      aElement.textContent = i;
+
+      // a要素をli要素の子要素として追加
+      liElement.appendChild(aElement);
+
+      // li要素を親要素に追加
+      parentElement.appendChild(liElement);
+    }
   };
 }
 

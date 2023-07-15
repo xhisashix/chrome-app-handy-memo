@@ -2,15 +2,11 @@ const popupClass = require("./popup.class.js");
 const popup = new popupClass();
 const memo = document.getElementById("memo");
 const title = document.getElementById("title");
-const resetBtn = document.getElementById("reset_btn");
-const copyBtn = document.getElementById("copy_btn");
-const $h1 = document.getElementById("h1");
-const $h2 = document.getElementById("h2");
-const $h3 = document.getElementById("h3");
-const square = document.getElementById("square");
-const date = document.getElementById("date");
-const time = document.getElementById("time");
-const downloadBtn = document.getElementById("download_btn");
+
+document.addEventListener("blur", function (event) {
+  var blurElement = event.target;
+  var id = blurElement.id;
+});
 
 memo.addEventListener("blur", () => {
   popup.saveMemo(memo);
@@ -18,32 +14,52 @@ memo.addEventListener("blur", () => {
 title.addEventListener("blur", () => {
   popup.saveTitle(title);
 });
-resetBtn.addEventListener("click", () => {
-  popup.clearMemo(title, memo);
+
+
+document.addEventListener("click", function (event) {
+  var clickedElement = event.target;
+  var id = clickedElement.id;
+
+  if (id === "reset_btn") {
+    popup.clearMemo(title, memo);
+  }
+
+  if (id === "copy_btn") {
+    popup.copyToClipboard(memo);
+  }
+
+  if (id === "generate_btn") {
+    popup.addList();
+  }
+
+  if (id === "download_btn") {
+    popup.download();
+  }
+
+  if (id === "h1") {
+    popup.insertText("# ", memo);
+  }
+
+  if (id === "h2") {
+    popup.insertText("## ", memo);
+  }
+
+  if (id === "h3") {
+    popup.insertText("### ", memo);
+  }
+
+  if (id === "square") {
+    popup.insertText("■ ", memo);
+  }
+
+  if (id === "date") {
+    popup.insertText(new Date().toLocaleDateString(), memo);
+  }
+
+  if (id === "time") {
+    popup.insertText(new Date().toLocaleTimeString(), memo);
+  }
 });
 
-copyBtn.addEventListener("click", () => {
-  popup.copyToClipboard(memo);
-});
-$h1.addEventListener("click", () => {
-  popup.insertText("# ", memo);
-});
-$h2.addEventListener("click", () => {
-  popup.insertText("## ", memo);
-});
-$h3.addEventListener("click", () => {
-  popup.insertText("### ", memo);
-});
-square.addEventListener("click", () => {
-  popup.insertText("■ ", memo);
-});
-date.addEventListener("click", () => {
-  popup.insertText(new Date().toLocaleDateString(), memo);
-});
-time.addEventListener("click", () => {
-  popup.insertText(new Date().toLocaleTimeString(), memo);
-});
-
-downloadBtn.addEventListener("click", popup.download);
-
+popup.addList();
 popup.getTargetVal(title, memo);
