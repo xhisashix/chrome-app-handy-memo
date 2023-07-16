@@ -9,10 +9,15 @@ document.addEventListener("blur", function (event) {
 });
 
 memo.addEventListener("blur", () => {
-  popup.saveMemo(memo);
+  popup.getActiveTabId().then((activeTabId) => {
+    popup.saveMemo(activeTabId);
+  });
 });
+
 title.addEventListener("blur", () => {
-  popup.saveTitle(title);
+  popup.getActiveTabId().then((activeTabId) => {
+    popup.saveTitle(activeTabId);
+  });
 });
 
 document.addEventListener("click", function (event) {
@@ -23,6 +28,9 @@ document.addEventListener("click", function (event) {
   if (id.includes("memo_")) {
     const navId = popup.getNavItemId(id);
     popup.activeNav(navId);
+    popup.getActiveTabId().then((activeTabId) => {
+      popup.getTargetVal(activeTabId);
+    });
   }
 
   if (id === "reset_btn") {
@@ -65,6 +73,8 @@ document.addEventListener("click", function (event) {
     popup.insertText(new Date().toLocaleTimeString(), memo);
   }
 });
-popup.getActiveTabId();
+popup.getActiveTabId().then((activeTabId) => {
+  popup.getTargetVal(activeTabId);
+});
+
 popup.addList();
-popup.getTargetVal(title, memo);

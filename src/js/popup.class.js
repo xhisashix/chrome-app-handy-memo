@@ -16,11 +16,16 @@ class popupClass {
    * @returns {string} activeTabId
    */
   getActiveTabId = () => {
-    chrome.storage.local.get(["activeTabId"], (result) => {
-      if (result.activeTabId) {
-        const activeTabId = result.activeTabId;
-        this.activeNav(activeTabId);
-      }
+    return new Promise((resolve, reject) => {
+      chrome.storage.local.get(["activeTabId"], (result) => {
+        const activeTabId = result["activeTabId"];
+        if (activeTabId) {
+          this.activeNav(activeTabId);
+          resolve(activeTabId);
+        } else {
+          reject(new Error("Active tab ID not found."));
+        }
+      });
     });
   };
 
@@ -30,14 +35,12 @@ class popupClass {
    * @returns {string} targetVal
    * @returns {string} targetVal
    */
-  getTargetVal = (title, memo) => {
-    const keyMemo = memo.getAttribute("id");
-    const keyTitle = title.getAttribute("id");
-    chrome.storage.local.get([keyMemo], (result) => {
-      if (result[keyMemo]) memo.value = result[keyMemo];
+  getTargetVal = (itemId) => {
+    chrome.storage.local.get([`memo_${itemId}`], (result) => {
+      if (result[`memo_${itemId}`]) memo.value = result[`memo_${itemId}`];
     });
-    chrome.storage.local.get([keyTitle], (result) => {
-      if (result[keyTitle]) title.value = result[keyTitle];
+    chrome.storage.local.get([`title_${itemId}`], (result) => {
+      if (result[`title_${itemId}`]) title.value = result[`title_${itemId}`];
     });
   };
 
@@ -46,9 +49,9 @@ class popupClass {
    * @param {string} targetVal
    * @returns {string} targetVal
    */
-  saveTitle = (title, itemId) => {
-    const keyTitle = title.getAttribute("id");
-    chrome.storage.local.set({ [`${keyTitle}_${itemId}`]: title.value }, () => {
+  saveTitle = (itemId) => {
+    const title = document.getElementById("title");
+    chrome.storage.local.set({ [`title_${itemId}`]: title.value }, () => {
       console.log("save title");
     });
 
@@ -60,9 +63,9 @@ class popupClass {
    * @param {string} targetVal
    * @returns {string} targetVal
    */
-  saveMemo = (memo, itemId) => {
-    const keyMemo = memo.getAttribute("id");
-    chrome.storage.local.set({ [`${keyMemo}_${itemId}`]: memo.value }, () => {
+  saveMemo = (itemId) => {
+    const memo = document.getElementById("memo");
+    chrome.storage.local.set({ [`memo_${itemId}`]: memo.value }, () => {
       console.log("save memo");
     });
 
