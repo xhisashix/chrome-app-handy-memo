@@ -36,11 +36,21 @@ class popupClass {
    * @returns {string} targetVal
    */
   getTargetVal = (itemId) => {
+    const memo = document.getElementById("memo");
+    const title = document.getElementById("title");
     chrome.storage.local.get([`memo_${itemId}`], (result) => {
-      if (result[`memo_${itemId}`]) memo.value = result[`memo_${itemId}`];
+      if (result[`memo_${itemId}`]) {
+        memo.value = result[`memo_${itemId}`];
+      } else {
+        memo.value = "";
+      }
     });
     chrome.storage.local.get([`title_${itemId}`], (result) => {
-      if (result[`title_${itemId}`]) title.value = result[`title_${itemId}`];
+      if (result[`title_${itemId}`]) {
+        title.value = result[`title_${itemId}`];
+      } else {
+        title.value = "";
+      }
     });
   };
 
@@ -90,15 +100,17 @@ class popupClass {
   clearMemo = (title, memo) => {
     title.value = "";
     memo.value = "";
-    chrome.storage.local.set(
-      {
-        title: "",
-        memo: "",
-      },
-      () => {
-        console.log("clear memo");
-      }
-    );
+    this.getActiveTabId().then((activeTabId) => {
+      chrome.storage.local.set(
+        {
+          [`title_${activeTabId}`]: "",
+          [`memo_${activeTabId}`]: "",
+        },
+        () => {
+          console.log("clear memo");
+        }
+      );
+    });
   };
 
   /**
