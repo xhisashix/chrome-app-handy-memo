@@ -22,6 +22,7 @@ module.exports = {
         { from: "./src/html/", to: "html" },
         { from: "./src/css/", to: "css" },
         { from: "./src/manifest.json", to: "manifest.json" },
+        { from: "./src/img/", to: "img" },
       ],
     }),
   ],
