@@ -3,20 +3,16 @@ const popup = new popupClass();
 const memo = document.getElementById("memo");
 const title = document.getElementById("title");
 
-document.addEventListener("blur", function (event) {
-  var blurElement = event.target;
-  var id = blurElement.id;
-  if (id === "memo") {
-    popup.getActiveTabId().then((activeTabId) => {
-      popup.saveMemo(activeTabId);
-    });
-  }
+memo.addEventListener("blur", () => {
+  popup.getActiveTabId().then((activeTabId) => {
+    popup.saveMemo(activeTabId);
+  });
+});
 
-  if (id === "title") {
-    popup.getActiveTabId().then((activeTabId) => {
-      popup.saveTitle(activeTabId);
-    });
-  }
+title.addEventListener("blur", () => {
+  popup.getActiveTabId().then((activeTabId) => {
+    popup.saveTitle(activeTabId);
+  });
 });
 
 document.addEventListener("click", function (event) {
