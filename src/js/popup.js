@@ -3,73 +3,82 @@ const popup = new popupClass();
 const memo = document.getElementById("memo");
 const title = document.getElementById("title");
 
-memo.addEventListener("blur", () => {
-  popup.getActiveTabId().then((activeTabId) => {
-    popup.saveMemo(activeTabId);
-  });
-});
-
-title.addEventListener("blur", () => {
-  popup.getActiveTabId().then((activeTabId) => {
-    popup.saveTitle(activeTabId);
-  });
-});
-
 document.addEventListener("click", function (event) {
   var clickedElement = event.target;
   var id = clickedElement.id;
 
-  //if include memo_ in id
-  if (id.includes("memo_")) {
-    const navId = popup.getNavItemId(id);
-    popup.activeNav(navId);
-    popup.getActiveTabId().then((activeTabId) => {
-      popup.getTargetVal(activeTabId);
-    });
-  }
+  while (true) {
+    switch (id) {
+      case "reset_btn":
+        popup.clearMemo(title, memo);
+        break;
+      case "copy_btn":
+        popup.copyToClipboard(memo);
+        break;
+      case "generate_btn":
+        popup.addList();
+        break;
+      case "download_btn":
+        popup.download();
+        break;
+      case "h1":
+        popup.insertText("# ", memo);
+        break;
+      case "h2":
+        popup.insertText("## ", memo);
+        break;
+      case "h3":
+        popup.insertText("### ", memo);
+        break;
+      case "square":
+        popup.insertText("■ ", memo);
+        break;
+      case "date":
+        popup.insertText(new Date().toLocaleDateString(), memo);
+        break;
+      case "time":
+        popup.insertText(new Date().toLocaleTimeString(), memo);
+        break;
+      default:
+        if (!id.includes("memo_")) {
+          break;
+        }
+        const navId = popup.getNavItemId(id);
+        popup.activeNav(navId);
+        popup.getActiveTabId().then((activeTabId) => {
+          popup.getTargetVal(activeTabId);
+        });
+        break;
+    }
 
-  if (id === "reset_btn") {
-    popup.clearMemo(title, memo);
-  }
-
-  if (id === "copy_btn") {
-    popup.copyToClipboard(memo);
-  }
-
-  if (id === "generate_btn") {
-    popup.addList();
-  }
-
-  if (id === "download_btn") {
-    popup.download();
-  }
-
-  if (id === "h1") {
-    popup.insertText("# ", memo);
-  }
-
-  if (id === "h2") {
-    popup.insertText("## ", memo);
-  }
-
-  if (id === "h3") {
-    popup.insertText("### ", memo);
-  }
-
-  if (id === "square") {
-    popup.insertText("■ ", memo);
-  }
-
-  if (id === "date") {
-    popup.insertText(new Date().toLocaleDateString(), memo);
-  }
-
-  if (id === "time") {
-    popup.insertText(new Date().toLocaleTimeString(), memo);
+    break;
   }
 });
+
 popup.getActiveTabId().then((activeTabId) => {
   popup.getTargetVal(activeTabId);
 });
 
 popup.addList();
+
+document.addEventListener("DOMContentLoaded", function () {
+  var timeoutId;
+
+  title.addEventListener("keyup", function () {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      popup.getActiveTabId().then((activeTabId) => {
+        popup.saveTitle(activeTabId);
+      });
+    }, 500);
+  });
+
+  memo.addEventListener("keyup", function () {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      popup.getActiveTabId().then((activeTabId) => {
+        popup.saveMemo(activeTabId);
+      });
+    }, 500);
+  });
+});
