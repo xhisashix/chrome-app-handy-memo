@@ -23,6 +23,7 @@ class popupClass {
           this.activeNav(activeTabId);
           resolve(activeTabId);
         } else {
+          this.activeNav(1);
           reject(new Error("Active tab ID not found."));
         }
       });
