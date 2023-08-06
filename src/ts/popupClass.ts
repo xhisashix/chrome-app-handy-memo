@@ -5,7 +5,7 @@ class popupClass {
    * save active tab id
    * @param {string} id
    */
-  saveActiveTabId = (id) => {
+  saveActiveTabId = (id: Number) => {
     chrome.storage.local.set({ activeTabId: id }, () => {
       console.log("save active tab id");
     });
@@ -34,11 +34,11 @@ class popupClass {
    * メモの情報を取得する
    * @param {string} targetVal
    * @returns {string} targetVal
-   * @returns {string} targetVal
    */
-  getTargetVal = (itemId) => {
-    const memo = document.getElementById("memo");
-    const title = document.getElementById("title");
+  getTargetVal = (itemId: number) => {
+    const memo = document.getElementById("memo") as HTMLTextAreaElement;
+    const title = document.getElementById("title") as HTMLInputElement;
+    if (!memo || !title) return;
     chrome.storage.local.get([`memo_${itemId}`], (result) => {
       if (result[`memo_${itemId}`]) {
         memo.value = result[`memo_${itemId}`];
@@ -60,8 +60,9 @@ class popupClass {
    * @param {string} targetVal
    * @returns {string} targetVal
    */
-  saveTitle = (itemId) => {
-    const title = document.getElementById("title");
+  saveTitle = (itemId: number) => {
+    const title = document.getElementById("title") as HTMLInputElement;
+    if (!title) return;
     chrome.storage.local.set({ [`title_${itemId}`]: title.value }, () => {
       console.log("save title");
     });
@@ -71,11 +72,12 @@ class popupClass {
 
   /**
    * メモを保存する
-   * @param {string} targetVal
+   * @param {string} itemId
    * @returns {string} targetVal
    */
-  saveMemo = (itemId) => {
-    const memo = document.getElementById("memo");
+  saveMemo = (itemId: number) => {
+    const memo = document.getElementById("memo") as HTMLTextAreaElement;
+    if (!memo) return;
     chrome.storage.local.set({ [`memo_${itemId}`]: memo.value }, () => {
       console.log("save memo");
     });
@@ -87,6 +89,8 @@ class popupClass {
    * flash message
    */
   _flashMessage = () => {
+    // Flash message
+    const flash = document.getElementById("flash") as HTMLDivElement;
     flash.innerText = "saved!";
     flash.style.display = "block";
     setTimeout(() => {
@@ -96,9 +100,11 @@ class popupClass {
 
   /**
    * メモをクリアする
+   * @param {string} title
+   * @param {string} memo
    * @returns {string} targetVal
    */
-  clearMemo = (title, memo) => {
+  clearMemo = (title: any, memo: any) => {
     title.value = "";
     memo.value = "";
     this.getActiveTabId().then((activeTabId) => {
@@ -119,12 +125,12 @@ class popupClass {
    * @param {string} targetVal
    * @returns {string} targetVal
    */
-  copyToClipboard = (copyText) => {
+  copyToClipboard = (copyText: any) => {
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
     // Flash message
-    const flash = document.getElementById("flash");
+    const flash = document.getElementById("flash") as HTMLDivElement;
     // add text
     flash.innerText = "Copied!";
     flash.style.display = "block";
@@ -139,7 +145,7 @@ class popupClass {
    * @param {HTMLTextAreaElement} textarea
    * @return {string}
    */
-  insertText = (text, textarea) => {
+  insertText = (text: string, textarea: any) => {
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const len = textarea.value.length;
@@ -152,6 +158,9 @@ class popupClass {
   };
 
   download = () => {
+    const memo = document.getElementById("memo") as HTMLTextAreaElement;
+    const title = document.getElementById("title") as HTMLInputElement;
+    if (!memo || !title) return;
     const blob = new Blob([memo.value], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -189,12 +198,15 @@ class popupClass {
       var aElement = document.createElement("a");
       aElement.className = "nav-link tab-btn";
       aElement.id = "memo_" + i;
-      aElement.textContent = i;
+      // number型をstring型に変換
+      const itemId = i.toString();
+      aElement.textContent = itemId;
 
       // a要素をli要素の子要素として追加
       liElement.appendChild(aElement);
 
       // li要素を親要素に追加
+      if (!parentElement) return;
       parentElement.appendChild(liElement);
     }
   };
@@ -202,7 +214,7 @@ class popupClass {
   /**
    * active nav link
    */
-  activeNav = (itemId) => {
+  activeNav = (itemId: Number) => {
     const navLinks = document.querySelectorAll(".nav-link");
     // remove active class
     navLinks.forEach((navLink) => {
@@ -210,6 +222,7 @@ class popupClass {
     });
     // add active class
     const activeLink = document.getElementById(`memo_${itemId}`);
+    if (!activeLink) return;
     activeLink.classList.add("active");
     this.saveActiveTabId(itemId);
   };
@@ -218,10 +231,11 @@ class popupClass {
    * get nav item id
    * @returns {string} itemId
    */
-  getNavItemId = (id) => {
+  getNavItemId = (id: string) => {
     const itemId = id.replace("memo_", "");
-    return itemId;
+    const itemIdNumber = Number(itemId);
+    return itemIdNumber;
   };
 }
 
-module.exports = popupClass;
+export default popupClass;
