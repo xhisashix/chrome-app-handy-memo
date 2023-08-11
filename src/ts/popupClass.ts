@@ -1,241 +1,233 @@
-class popupClass {
+class PopupClass {
   constructor() {}
 
   /**
-   * save active tab id
-   * @param {string} id
+   * Stores a key-value pair in the local storage.
+   * @private
+   * @param {string} key - The storage key.
+   * @param {any} value - The value to be stored.
    */
-  saveActiveTabId = (id: Number) => {
-    chrome.storage.local.set({ activeTabId: id }, () => {
-      console.log("save active tab id");
+  private _setStorageItem = (key: string, value: any) => {
+    chrome.storage.local.set({ [key]: value }, () => {
+      console.log(`Saved: ${key}`);
     });
   };
 
   /**
-   * get active tab id
-   * @returns {string} activeTabId
+   * Retrieves a value associated with a key from the local storage.
+   * @private
+   * @param {string} key - The storage key.
+   * @returns {Promise<any>} A promise containing the retrieved value.
    */
-  getActiveTabId = () => {
+  private _getStorageItem = (key: string): Promise<any> => {
     return new Promise((resolve, reject) => {
-      chrome.storage.local.get(["activeTabId"], (result) => {
-        const activeTabId = result["activeTabId"];
-        if (activeTabId) {
-          this.activeNav(activeTabId);
-          resolve(activeTabId);
+      chrome.storage.local.get([key], (result) => {
+        if (result[key]) {
+          resolve(result[key]);
         } else {
-          this.activeNav(1);
-          reject(new Error("Active tab ID not found."));
+          reject(new Error(`${key} not found.`));
         }
       });
     });
   };
 
   /**
-   * メモの情報を取得する
-   * @param {string} targetVal
-   * @returns {string} targetVal
+   * Shows a flash message to the user.
+   * @private
+   * @param {string} [message="saved!"] - The message to display.
+   */
+  private _flashMessage = (message: string = "saved!") => {
+    const flash = document.getElementById("flash") as HTMLDivElement;
+    if (!flash) return;
+
+    flash.innerText = message;
+    flash.style.display = "block";
+    setTimeout(() => {
+      flash.style.display = "none";
+    }, 500);
+  };
+
+  /**
+   * Saves the active tab's ID.
+   * @param {number} id - The active tab's ID.
+   */
+  saveActiveTabId = (id: number) => {
+    this._setStorageItem("activeTabId", id);
+  };
+
+  /**
+   * Retrieves the active tab's ID.
+   * @returns {Promise<number>} A promise containing the active tab's ID.
+   */
+  getActiveTabId = (): Promise<number> => {
+    return new Promise((resolve, reject) => {
+      this._getStorageItem("activeTabId")
+        .then((activeTabId: number) => {
+          this.activeNav(activeTabId);
+          resolve(activeTabId);
+        })
+        .catch((err) => {
+          this.activeNav(1);
+          reject(err);
+        });
+    });
+  };
+
+  /**
+   * Sets the value for the memo and title based on the item ID.
+   * @param {number} itemId - The item ID.
    */
   getTargetVal = (itemId: number) => {
     const memo = document.getElementById("memo") as HTMLTextAreaElement;
     const title = document.getElementById("title") as HTMLInputElement;
     if (!memo || !title) return;
-    chrome.storage.local.get([`memo_${itemId}`], (result) => {
-      if (result[`memo_${itemId}`]) {
-        memo.value = result[`memo_${itemId}`];
-      } else {
-        memo.value = "";
-      }
-    });
-    chrome.storage.local.get([`title_${itemId}`], (result) => {
-      if (result[`title_${itemId}`]) {
-        title.value = result[`title_${itemId}`];
-      } else {
-        title.value = "";
-      }
-    });
+
+    this._getStorageItem(`memo_${itemId}`)
+      .then((value) => (memo.value = value))
+      .catch(() => (memo.value = ""));
+
+    this._getStorageItem(`title_${itemId}`)
+      .then((value) => (title.value = value))
+      .catch(() => (title.value = ""));
   };
 
-  /**
-   * タイトルを保存する
-   * @param {string} targetVal
-   * @returns {string} targetVal
+    /**
+   * Saves the title.
+   * @param {number} itemId - The item ID.
+   * @param {HTMLInputElement} title - The title input element.
    */
-  saveTitle = (itemId: number) => {
-    const title = document.getElementById("title") as HTMLInputElement;
+  saveTitle = (itemId: number, title: HTMLInputElement) => {
     if (!title) return;
-    chrome.storage.local.set({ [`title_${itemId}`]: title.value }, () => {
-      console.log("save title");
-    });
-
+    this._setStorageItem(`title_${itemId}`, title.value);
     this._flashMessage();
   };
 
-  /**
-   * メモを保存する
-   * @param {string} itemId
-   * @returns {string} targetVal
+    /**
+   * Saves the memo.
+   * @param {number} itemId - The item ID.
+   * @param {HTMLTextAreaElement} memo - The memo textarea element.
    */
-  saveMemo = (itemId: number) => {
-    const memo = document.getElementById("memo") as HTMLTextAreaElement;
+  saveMemo = (itemId: number, memo: HTMLTextAreaElement) => {
     if (!memo) return;
-    chrome.storage.local.set({ [`memo_${itemId}`]: memo.value }, () => {
-      console.log("save memo");
-    });
-
+    this._setStorageItem(`memo_${itemId}`, memo.value);
     this._flashMessage();
   };
 
-  /**
-   * flash message
+    /**
+   * Clears the memo.
+   * @param {HTMLInputElement} title - The title input element.
+   * @param {HTMLTextAreaElement} memo - The memo textarea element.
    */
-  _flashMessage = () => {
-    // Flash message
-    const flash = document.getElementById("flash") as HTMLDivElement;
-    flash.innerText = "saved!";
-    flash.style.display = "block";
-    setTimeout(() => {
-      flash.style.display = "none";
-    }, 500);
-  };
-
-  /**
-   * メモをクリアする
-   * @param {string} title
-   * @param {string} memo
-   * @returns {string} targetVal
-   */
-  clearMemo = (title: any, memo: any) => {
+  clearMemo = (title: HTMLInputElement, memo: HTMLTextAreaElement) => {
+    if (!title || !memo) return;
     title.value = "";
     memo.value = "";
+
     this.getActiveTabId().then((activeTabId) => {
-      chrome.storage.local.set(
-        {
-          [`title_${activeTabId}`]: "",
-          [`memo_${activeTabId}`]: "",
-        },
-        () => {
-          console.log("clear memo");
-        }
-      );
+      this._setStorageItem(`title_${activeTabId}`, "");
+      this._setStorageItem(`memo_${activeTabId}`, "");
     });
   };
 
-  /**
-   * メモをコピーする
-   * @param {string} targetVal
-   * @returns {string} targetVal
+    /**
+   * Copies the text to the clipboard.
+   * @param {HTMLTextAreaElement} copyText - The text to copy.
    */
-  copyToClipboard = (copyText: any) => {
+  copyToClipboard = (copyText: HTMLTextAreaElement) => {
+    if (!copyText) return;
     copyText.select();
     copyText.setSelectionRange(0, 99999);
     document.execCommand("copy");
-    // Flash message
-    const flash = document.getElementById("flash") as HTMLDivElement;
-    // add text
-    flash.innerText = "Copied!";
-    flash.style.display = "block";
-    setTimeout(() => {
-      flash.style.display = "none";
-    }, 500);
+
+    this._flashMessage("Copied!");
   };
 
-  /**
-   * テキストエリアのカーソル行に文字を入力する
-   * @param {string} text
-   * @param {HTMLTextAreaElement} textarea
-   * @return {string}
+    /**
+   * Inserts the provided text at the cursor's position in the textarea.
+   * @param {string} text - The text to insert.
+   * @param {HTMLTextAreaElement} textarea - The textarea where the text will be inserted.
    */
-  insertText = (text: string, textarea: any) => {
+  insertText = (text: string, textarea: HTMLTextAreaElement) => {
+    if (!textarea) return;
+
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const len = textarea.value.length;
-    const before = textarea.value.substr(0, start);
-    const after = textarea.value.substr(end, len);
+    const before = textarea.value.substring(0, start);
+    const after = textarea.value.substring(end, len);
+
     textarea.value = before + text + after;
     textarea.setSelectionRange(start + text.length, start + text.length);
     textarea.focus();
-    return textarea.value;
   };
 
+    /**
+   * Allows the user to download the memo's content.
+   */
   download = () => {
     const memo = document.getElementById("memo") as HTMLTextAreaElement;
     const title = document.getElementById("title") as HTMLInputElement;
     if (!memo || !title) return;
+
     const blob = new Blob([memo.value], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    if (title.value === "") {
-      // 日付と時間を代入する
-      title.value = new Date().toLocaleString();
-    }
-    a.download = `${title.value}.md`;
+
+    a.download = title.value || new Date().toLocaleString() + ".md";
     a.href = url;
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
   };
 
-  /**
-   * add list element
+    /**
+   * Adds a list of navigation items to the specified parent element.
+   * @param {number} [count=10] - Number of navigation items to add.
+   * @param {string} [parentElementId="nav"] - The ID of the parent element.
    */
-  addList = () => {
-    // 要素を作成する回数
-    const count = 10;
+  addList = (count: number = 10, parentElementId: string = "nav") => {
+    const parentElement = document.getElementById(parentElementId);
+    if (!parentElement) return;
 
-    // 要素を追加する親要素のIDを指定
-    var parentElementId = "nav";
-
-    // 親要素を取得
-    var parentElement = document.getElementById(parentElementId);
-
-    // 要素を作成して親要素に追加するループ
-    for (var i = 1; i <= count; i++) {
-      // li要素を作成
-      var liElement = document.createElement("li");
+    for (let i = 1; i <= count; i++) {
+      const liElement = document.createElement("li");
       liElement.className = "nav-item";
 
-      // a要素を作成
-      var aElement = document.createElement("a");
+      const aElement = document.createElement("a");
       aElement.className = "nav-link tab-btn";
       aElement.id = "memo_" + i;
-      // number型をstring型に変換
-      const itemId = i.toString();
-      aElement.textContent = itemId;
+      aElement.textContent = i.toString();
 
-      // a要素をli要素の子要素として追加
       liElement.appendChild(aElement);
-
-      // li要素を親要素に追加
-      if (!parentElement) return;
       parentElement.appendChild(liElement);
     }
   };
 
-  /**
-   * active nav link
+    /**
+   * Sets the specified navigation item as active.
+   * @param {number} itemId - The ID of the navigation item.
    */
-  activeNav = (itemId: Number) => {
+  activeNav = (itemId: number) => {
     const navLinks = document.querySelectorAll(".nav-link");
-    // remove active class
     navLinks.forEach((navLink) => {
       navLink.classList.remove("active");
     });
-    // add active class
+
     const activeLink = document.getElementById(`memo_${itemId}`);
-    if (!activeLink) return;
-    activeLink.classList.add("active");
-    this.saveActiveTabId(itemId);
+    if (activeLink) {
+      activeLink.classList.add("active");
+      this.saveActiveTabId(itemId);
+    }
   };
 
-  /**
-   * get nav item id
-   * @returns {string} itemId
+    /**
+   * Extracts the numeric ID from a string.
+   * @param {string} id - The string containing the ID.
+   * @returns {number} The extracted numeric ID.
    */
-  getNavItemId = (id: string) => {
-    const itemId = id.replace("memo_", "");
-    const itemIdNumber = Number(itemId);
-    return itemIdNumber;
+  getNavItemId = (id: string): number => {
+    return Number(id.replace("memo_", ""));
   };
 }
 
-export default popupClass;
+export default PopupClass;

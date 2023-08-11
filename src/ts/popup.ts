@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       popup.getActiveTabId().then((activeTabId) => {
-        popup.saveTitle(activeTabId as number);
+        popup.saveTitle(activeTabId, title);
       });
     }, 500);
   });
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       popup.getActiveTabId().then((activeTabId) => {
-        popup.saveMemo(activeTabId as number);
+        popup.saveMemo(activeTabId, memo);
       });
     }, 500);
   });
