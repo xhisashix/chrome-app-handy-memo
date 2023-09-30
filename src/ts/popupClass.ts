@@ -91,7 +91,7 @@ class PopupClass {
       .catch(() => (title.value = ""));
   };
 
-    /**
+  /**
    * Saves the title.
    * @param {number} itemId - The item ID.
    * @param {HTMLInputElement} title - The title input element.
@@ -102,7 +102,7 @@ class PopupClass {
     this._flashMessage();
   };
 
-    /**
+  /**
    * Saves the memo.
    * @param {number} itemId - The item ID.
    * @param {HTMLTextAreaElement} memo - The memo textarea element.
@@ -113,7 +113,7 @@ class PopupClass {
     this._flashMessage();
   };
 
-    /**
+  /**
    * Clears the memo.
    * @param {HTMLInputElement} title - The title input element.
    * @param {HTMLTextAreaElement} memo - The memo textarea element.
@@ -129,7 +129,7 @@ class PopupClass {
     });
   };
 
-    /**
+  /**
    * Copies the text to the clipboard.
    * @param {HTMLTextAreaElement} copyText - The text to copy.
    */
@@ -142,7 +142,7 @@ class PopupClass {
     this._flashMessage("Copied!");
   };
 
-    /**
+  /**
    * Inserts the provided text at the cursor's position in the textarea.
    * @param {string} text - The text to insert.
    * @param {HTMLTextAreaElement} textarea - The textarea where the text will be inserted.
@@ -161,7 +161,7 @@ class PopupClass {
     textarea.focus();
   };
 
-    /**
+  /**
    * Allows the user to download the memo's content.
    */
   download = () => {
@@ -180,7 +180,7 @@ class PopupClass {
     URL.revokeObjectURL(url);
   };
 
-    /**
+  /**
    * Adds a list of navigation items to the specified parent element.
    * @param {number} [count=10] - Number of navigation items to add.
    * @param {string} [parentElementId="nav"] - The ID of the parent element.
@@ -203,7 +203,7 @@ class PopupClass {
     }
   };
 
-    /**
+  /**
    * Sets the specified navigation item as active.
    * @param {number} itemId - The ID of the navigation item.
    */
@@ -220,7 +220,7 @@ class PopupClass {
     }
   };
 
-    /**
+  /**
    * Extracts the numeric ID from a string.
    * @param {string} id - The string containing the ID.
    * @returns {number} The extracted numeric ID.
