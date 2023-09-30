@@ -228,6 +228,21 @@ class PopupClass {
   getNavItemId = (id: string): number => {
     return Number(id.replace("memo_", ""));
   };
+
+  /**
+   * get current tab url
+   */
+  getCurrentTabUrl = () => {
+    return new Promise((resolve, reject) => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+          resolve(tabs[0].url);
+        } else {
+          reject(new Error("No active tab found."));
+        }
+      });
+    });
+  };
 }
 
 export default PopupClass;

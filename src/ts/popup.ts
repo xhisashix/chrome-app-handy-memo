@@ -19,6 +19,11 @@ document.addEventListener("click", function (event) {
     square: () => popup.insertText("■ ", memo),
     date: () => popup.insertText(new Date().toLocaleDateString(), memo),
     time: () => popup.insertText(new Date().toLocaleTimeString(), memo),
+    url: () => {
+      popup.getCurrentTabUrl().then((url) => {
+        popup.insertText(url as string, memo);
+      });
+    },
   };
 
   if (actionMappings[id]) {
