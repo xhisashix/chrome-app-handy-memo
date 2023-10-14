@@ -159,6 +159,10 @@ class PopupClass {
     textarea.value = before + text + after;
     textarea.setSelectionRange(start + text.length, start + text.length);
     textarea.focus();
+
+    this.getActiveTabId().then((activeTabId) => {
+      this._setStorageItem(`memo_${activeTabId}`, textarea.value);
+    });
   };
 
   /**
