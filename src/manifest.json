@@ -10,11 +10,16 @@
   "action": {
     "default_popup": "./html/popup.html"
   },
-  "host_permissions": [
-    "https://developer.chrome.com/*"
-  ],
-  "permissions": [
-    "tabs",
-    "storage"
-  ]
+  "options_page": "./html/options.html",
+  "host_permissions": ["https://developer.chrome.com/*"],
+  "permissions": ["tabs", "storage"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "mac": "MacCtrl+O"
+      },
+      "description": "Open the popup"
+    }
+  }
 }
