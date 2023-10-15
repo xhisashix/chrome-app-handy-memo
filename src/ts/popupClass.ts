@@ -1,17 +1,12 @@
-class PopupClass {
-  constructor() {}
+import storageClass from './storageClass';
 
-  /**
-   * Stores a key-value pair in the local storage.
-   * @private
-   * @param {string} key - The storage key.
-   * @param {any} value - The value to be stored.
-   */
-  private _setStorageItem = (key: string, value: any) => {
-    chrome.storage.local.set({ [key]: value }, () => {
-      console.log(`Saved: ${key}`);
-    });
-  };
+class PopupClass {
+  storage: storageClass;
+
+  constructor() {
+    const storage = new storageClass();
+    this.storage = storage;
+  }
 
   /**
    * Retrieves a value associated with a key from the local storage.
@@ -52,7 +47,7 @@ class PopupClass {
    * @param {number} id - The active tab's ID.
    */
   saveActiveTabId = (id: number) => {
-    this._setStorageItem("activeTabId", id);
+    this.storage.setStorageItem("activeTabId", id);
   };
 
   /**
@@ -98,7 +93,7 @@ class PopupClass {
    */
   saveTitle = (itemId: number, title: HTMLInputElement) => {
     if (!title) return;
-    this._setStorageItem(`title_${itemId}`, title.value);
+    this.storage.setStorageItem(`title_${itemId}`, title.value);
     this._flashMessage();
   };
 
@@ -109,7 +104,7 @@ class PopupClass {
    */
   saveMemo = (itemId: number, memo: HTMLTextAreaElement) => {
     if (!memo) return;
-    this._setStorageItem(`memo_${itemId}`, memo.value);
+    this.storage.setStorageItem(`memo_${itemId}`, memo.value);
     this._flashMessage();
   };
 
@@ -124,8 +119,8 @@ class PopupClass {
     memo.value = "";
 
     this.getActiveTabId().then((activeTabId) => {
-      this._setStorageItem(`title_${activeTabId}`, "");
-      this._setStorageItem(`memo_${activeTabId}`, "");
+      this.storage.setStorageItem(`title_${activeTabId}`, "");
+      this.storage.setStorageItem(`memo_${activeTabId}`, "");
     });
   };
 
@@ -161,7 +156,7 @@ class PopupClass {
     textarea.focus();
 
     this.getActiveTabId().then((activeTabId) => {
-      this._setStorageItem(`memo_${activeTabId}`, textarea.value);
+      this.storage.setStorageItem(`memo_${activeTabId}`, textarea.value);
     });
   };
 
