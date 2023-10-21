@@ -1,30 +1,42 @@
-import storageClass from './storageClass';
+import storageClass from "./storageClass";
 
 class PopupClass {
   storage: storageClass;
+  $h1: HTMLButtonElement;
+  $h2: HTMLButtonElement;
+  $h3: HTMLButtonElement;
+  $square: HTMLButtonElement;
+  $date: HTMLButtonElement;
+  $time: HTMLButtonElement;
+  $url: HTMLButtonElement;
+  $reset_btn: HTMLButtonElement;
+  $copy_btn: HTMLButtonElement;
+  $generate_btn: HTMLButtonElement;
+  $download_btn: HTMLButtonElement;
+  $memo: HTMLTextAreaElement;
+  $title: HTMLInputElement;
 
   constructor() {
     const storage = new storageClass();
     this.storage = storage;
+    this.$h1 = document.getElementById("h1") as HTMLButtonElement;
+    this.$h2 = document.getElementById("h2") as HTMLButtonElement;
+    this.$h3 = document.getElementById("h3") as HTMLButtonElement;
+    this.$square = document.getElementById("square") as HTMLButtonElement;
+    this.$date = document.getElementById("date") as HTMLButtonElement;
+    this.$time = document.getElementById("time") as HTMLButtonElement;
+    this.$url = document.getElementById("url") as HTMLButtonElement;
+    this.$reset_btn = document.getElementById("reset_btn") as HTMLButtonElement;
+    this.$copy_btn = document.getElementById("copy_btn") as HTMLButtonElement;
+    this.$generate_btn = document.getElementById(
+      "generate_btn"
+    ) as HTMLButtonElement;
+    this.$download_btn = document.getElementById(
+      "download_btn"
+    ) as HTMLButtonElement;
+    this.$memo = document.getElementById("memo") as HTMLTextAreaElement;
+    this.$title = document.getElementById("title") as HTMLInputElement;
   }
-
-  /**
-   * Retrieves a value associated with a key from the local storage.
-   * @private
-   * @param {string} key - The storage key.
-   * @returns {Promise<any>} A promise containing the retrieved value.
-   */
-  private _getStorageItem = (key: string): Promise<any> => {
-    return new Promise((resolve, reject) => {
-      chrome.storage.local.get([key], (result) => {
-        if (result[key]) {
-          resolve(result[key]);
-        } else {
-          reject(new Error(`${key} not found.`));
-        }
-      });
-    });
-  };
 
   /**
    * Shows a flash message to the user.
@@ -56,7 +68,8 @@ class PopupClass {
    */
   getActiveTabId = (): Promise<number> => {
     return new Promise((resolve, reject) => {
-      this._getStorageItem("activeTabId")
+      this.storage
+        .getStorageItem("activeTabId")
         .then((activeTabId: number) => {
           this.activeNav(activeTabId);
           resolve(activeTabId);
@@ -77,11 +90,13 @@ class PopupClass {
     const title = document.getElementById("title") as HTMLInputElement;
     if (!memo || !title) return;
 
-    this._getStorageItem(`memo_${itemId}`)
+    this.storage
+      .getStorageItem(`memo_${itemId}`)
       .then((value) => (memo.value = value))
       .catch(() => (memo.value = ""));
 
-    this._getStorageItem(`title_${itemId}`)
+    this.storage
+      .getStorageItem(`title_${itemId}`)
       .then((value) => (title.value = value))
       .catch(() => (title.value = ""));
   };
@@ -240,6 +255,17 @@ class PopupClass {
           reject(new Error("No active tab found."));
         }
       });
+    });
+  };
+
+  /**
+   * Add class show display element by from options value.
+   */
+  addShowDisplayByFromOptions = () => {
+    this.storage.getStorageItem("sharp_1").then((value) => {
+      if (value === "false") {
+        this.$h1.classList.add("d-none");
+      }
     });
   };
 }
