@@ -17,8 +17,11 @@ class PopupClass {
   $title: HTMLInputElement;
 
   constructor() {
+    // create a new storageClass instance
     const storage = new storageClass();
+    // assign storage to this.storage
     this.storage = storage;
+    // assign HTML elements to variables
     this.$h1 = document.getElementById("h1") as HTMLButtonElement;
     this.$h2 = document.getElementById("h2") as HTMLButtonElement;
     this.$h3 = document.getElementById("h3") as HTMLButtonElement;
@@ -244,30 +247,38 @@ class PopupClass {
   };
 
   /**
-   * get current tab url
+   * Get current tab url
+   * @returns {Promise<string>} A promise containing the current tab url.
    */
-  getCurrentTabUrl = () => {
+  getCurrentTabUrl(): Promise<string> {
     return new Promise((resolve, reject) => {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]) {
-          resolve(tabs[0].url);
+          resolve(tabs[0].url as string);
         } else {
           reject(new Error("No active tab found."));
         }
       });
     });
-  };
+  }
 
   /**
    * Add class show display element by from options value.
    */
-  addShowDisplayByFromOptions = () => {
-    this.storage.getStorageItem("sharp_1").then((value) => {
-      if (value === "false") {
-        this.$h1.classList.add("d-none");
-      }
+  addShowDisplayByFromOptions(): void {
+    const elements = {
+      sharp_1: this.$h1,
+      sharp_2: this.$h2,
+      sharp_3: this.$h3,
+    };
+
+    Object.entries(elements).forEach(([key, element]) => {
+      if (!element) return;
+      this.storage.getStorageItem(key).then((value) => {
+        if (value === "false") element.classList.add("d-none");
+      });
     });
-  };
+  }
 }
 
 export default PopupClass;
