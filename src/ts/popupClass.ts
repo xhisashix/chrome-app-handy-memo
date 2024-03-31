@@ -270,6 +270,10 @@ class PopupClass {
       sharp_1: this.$h1,
       sharp_2: this.$h2,
       sharp_3: this.$h3,
+      square: this.$square,
+      date: this.$date,
+      time: this.$time,
+      url: this.$url,
     };
 
     Object.entries(elements).forEach(([key, element]) => {
