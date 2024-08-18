@@ -3,7 +3,11 @@ const popup = new popupClass();
 const memo = document.getElementById("memo") as HTMLTextAreaElement;
 const title = document.getElementById("title") as HTMLInputElement;
 
-document.addEventListener("click", function (event) {
+
+document.addEventListener("click", handleDocumentClick);
+document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
+
+function handleDocumentClick(event: MouseEvent) {
   const clickedElement = event.target as HTMLElement;
   if (!clickedElement) return;
   const id = clickedElement.id;
@@ -35,7 +39,7 @@ document.addEventListener("click", function (event) {
       popup.getTargetVal(activeTabId as number);
     });
   }
-});
+}
 
 popup.getActiveTabId().then((activeTabId) => {
   popup.getTargetVal(activeTabId as number);
@@ -43,7 +47,7 @@ popup.getActiveTabId().then((activeTabId) => {
 
 popup.addList();
 
-document.addEventListener("DOMContentLoaded", function () {
+function handleDOMContentLoaded() {
   var timeoutId: any;
 
   title.addEventListener("keyup", function () {
@@ -63,6 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }, 500);
   });
-});
+}
 
 popup.addShowDisplayByFromOptions();
