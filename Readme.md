@@ -1,48 +1,46 @@
-# Handy Memo
+# Getting Started with Create React App
 
-## 概要
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Chrome拡張機能「Handy Memo」は、Chromeでメモを残すことができる拡張機能です。
+## Available Scripts
 
-ポップアップで表示されるメモのエリアに、タイトルとメモの内容を入力できます。
+In the project directory, you can run:
 
-![demo_01](./img/demo_01.png)
+### `npm start`
 
-## インストール
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Chromeウェブストアからインストールできます。
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-<https://chrome.google.com/webstore/detail/handy-memo/gebjcpnknlagmidhnhajcknjcphpnnid?hl=ja&authuser=0>
+### `npm test`
 
-## 使い方
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-ブラウザのアドレスバーの右側にあるアイコンをクリックするとポップアップが表示されます。
-あとは、普段利用されているメモアプリと同じように内容を入力するだけです。
+### `npm run build`
 
-最大10件までメモを残すことができます。
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-![demo_02](./img/demo_02.png)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-### タイトルとメモの保存
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-タイトルとメモの内容は自動で保存されます。
-タイトルとメモの内容は、ブラウザを閉じても保存されます。
+### `npm run eject`
 
-### ツールバー
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-アイコンをクリックすることで特定の文字を入力できます。
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- `#` アイコンをクリックすると、`#`を入力します。
-- `##` アイコンをクリックすると、`##`を入力します。
-- `###` アイコンをクリックすると、`###`を入力します。
-- `■` アイコンをクリックすると、`■`を入力します。
-- `DATE` アイコンをクリックすると、`YYYY/MM/DD`を入力します。
-- `TIME` アイコンをクリックすると、`HH:MM:SS`を入力します。
-- `URL` アイコンをクリックすると、現在開いているタブのURLを入力します。
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-### 各種ボタン
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-- コピーボタンをクリックすると、メモの内容をクリップボードにコピーします。
-- リセットボタンをクリックすると、タイトルとメモの内容をリセットします。
-- ダウンロードボタンをクリックすると、メモの内容を`md`ファイルとしてダウンロードします。
-  - タイトルが入力されていない場合は、`YYYY-MM-DD-HH-MM-SS`の形式でファイル名が付与されます。
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
