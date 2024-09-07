@@ -1,19 +1,9 @@
 import "./App.css";
 import "./index.css";
-import { Helmet } from "react-helmet";
 
 function App() {
   return (
     <div className="App">
-      <Helmet
-        title="Handy Memo - develop by React"
-        meta={[
-          {
-            name: "description",
-            content: "Markdown形式でメモを取ることができるアプリです。",
-          },
-        ]}
-      ></Helmet>
       <div className="main container-md p-3">
         <h3 className="text-3xl">Handy Memo</h3>
         <div className="form-group">
