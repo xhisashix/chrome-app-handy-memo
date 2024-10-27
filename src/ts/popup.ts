@@ -3,10 +3,14 @@ const popup = new popupClass();
 const memo = document.getElementById("memo") as HTMLTextAreaElement;
 const title = document.getElementById("title") as HTMLInputElement;
 
-
 document.addEventListener("click", handleDocumentClick);
 document.addEventListener("DOMContentLoaded", handleDOMContentLoaded);
 
+/**
+ * handleDocumentClick
+ * @param event MouseEvent
+ * @returns void
+ */
 function handleDocumentClick(event: MouseEvent) {
   const clickedElement = event.target as HTMLElement;
   if (!clickedElement) return;
@@ -41,12 +45,10 @@ function handleDocumentClick(event: MouseEvent) {
   }
 }
 
-popup.getActiveTabId().then((activeTabId) => {
-  popup.getTargetVal(activeTabId as number);
-});
-
-popup.addList();
-
+/**
+ * handleDOMContentLoaded
+ * @returns void
+ */
 function handleDOMContentLoaded() {
   var timeoutId: any;
 
@@ -69,4 +71,8 @@ function handleDOMContentLoaded() {
   });
 }
 
+popup.getActiveTabId().then((activeTabId) => {
+  popup.getTargetVal(activeTabId as number);
+});
+popup.addList();
 popup.addShowDisplayByFromOptions();
