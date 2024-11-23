@@ -30,7 +30,7 @@
               name="title"
               id="title"
               class="form-control"
-              placeholder="タイトル"
+              placeholder="Title"
             />
           </div>
         </div>
@@ -90,37 +90,38 @@
             class="form-control memo-textarea"
             id="memo"
             rows="10"
+            placeholder="Enter your memo here..."
           ></textarea>
         </div>
         <div class="form-inline mt-2">
           <div class="form-group">
             <button type="button" id="copy_btn" class="btn btn-warning">
-              コピー
+              Copy
             </button>
             <button
               type="button"
               id="reset_btn"
               class="btn btn-outline-secondary ml-2"
             >
-              リセット
+              Reset
             </button>
             <button
               type="button"
               id="download_btn"
               class="btn btn-secondary ml-2"
             >
-              ダウンロード
+              Download
             </button>
           </div>
           <div class="form-grop">
             <small class="form-text text-muted"
-              >・メモとタイトルは自動で保存されます。</small
+              >・Title and memo is auto saving</small
             >
             <small class="form-text text-muted mt-0"
-              >・リセットはタイトルとテキストボックスのどちらも初期化されます。</small
+              >・Reset button is init title and memo</small
             >
             <small class="form-text text-muted mt-0"
-              >・タイトルが未入力の場合、現在の日付と時間でダウンロードできます。</small
+              >・If title is empty, file name will be created on current date</small
             >
           </div>
         </div>
